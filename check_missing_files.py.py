@@ -26,3 +26,5 @@ if missing_in_wlg:
     print(f"Total missing files in wlg folder: {len(missing_in_wlg)}")
 else:
     print("No missing files in wlg folder")
+
+print(input('Press enter to exit'))
