@@ -14,7 +14,7 @@ def check_date_in_file(file_path: str):
     update_date = False
     try:
         date_from_content = datetime.strptime(date_from_content, '%d/%m/%Y').strftime('%Y-%m-%d')
-        if date_from_content != date_from_file_name:
+        if date_from_content != date_from_file_name and date_from_file_name not in ["500", "200"]:
             print(f'Date in file {file_name} is incorrect. Current date: {date_from_content}. Correct date: {date_from_file_name}')
             update_date = True
         #else:
@@ -23,13 +23,18 @@ def check_date_in_file(file_path: str):
         print(f'Error: Date in file {file_name} does not match expected format. Date in file: {date_from_content}')
         update_date = True
     if update_date:
-        user_input = input('Would you like to update the date in the file? (y/n): ')
-        if user_input.lower() == 'y':
-            new_date = datetime.strptime(date_from_file_name, '%Y-%m-%d').strftime('%d/%m/%Y')
-            update_date_in_file(file_path, new_date)
-            print(f'Date in file {file_name} has been updated to {new_date}')
-        else:
-            print(f'Date in file {file_name} was not updated')
+        prompt_user_to_update_date(file_path, file_name, date_from_file_name)
+
+def prompt_user_to_update_date(file_path: str, file_name: str, date_from_file_name: str):
+    user_input = input('Would you like to update the date in the file? (y/n): ')
+    if user_input.lower() == 'y':
+        new_date = datetime.strptime(date_from_file_name, '%Y-%m-%d').strftime('%d/%m/%Y')
+        update_date_in_file(file_path, new_date)
+        print(f'Date in file {file_name} has been updated to {new_date}')
+    else:
+        print(f'Date in file {file_name} was not updated')
+
+
 
 def update_date_in_file(file_path: str, new_date: str):
     with open(file_path, 'r') as f:
